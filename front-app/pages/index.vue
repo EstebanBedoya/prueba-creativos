@@ -1,16 +1,22 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col>
-        <data-table :data="users" :getAllData="getAllData" @itemEdit='editItem'/>
+    <v-row >
+      <v-col md="7" xs="12">
+        <v-toolbar-title>Lista de usuarios</v-toolbar-title>
+        <data-table
+          :data="users"
+          :getAllData="getAllData"
+          @itemEdit="editItem"
+        />
       </v-col>
-      <v-col>
+      <v-col xs="12">
+        <v-toolbar-title>Formulario de datos</v-toolbar-title>
         <form-custom
           :tiposId="tiposId"
           :roles="roles"
           :getAllData="getAllData"
-          :itemEdit='itemEdit'
-          @finish='reset'
+          :itemEdit="itemEdit"
+          @finish="reset"
         />
       </v-col>
     </v-row>
@@ -30,7 +36,7 @@ export default {
       users: [],
       tiposId: [],
       roles: [],
-      itemEdit: {}
+      itemEdit: {},
     }
   },
   components: { DataTable, FormCustom },
@@ -38,7 +44,9 @@ export default {
     async getAllData() {
       const users = await this.$axios.get('http://localhost:3001/api/v1/users')
 
-      const result = await this.$axios.get('http://localhost:3001/api/v1/users/types')
+      const result = await this.$axios.get(
+        'http://localhost:3001/api/v1/users/types'
+      )
 
       this.users = users.data.result
       this.tiposId = result.data.tiposId
@@ -49,8 +57,7 @@ export default {
     },
     reset() {
       this.itemEdit = {}
-    }
-    
-  }
+    },
+  },
 }
 </script>

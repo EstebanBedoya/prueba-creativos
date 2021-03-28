@@ -17,7 +17,10 @@ const getOneUser = async (req, res) => {
     try {
         const { id } = req.params
 
-        const { rows } = await pool.query(`SELECT * FROM users WHERE id = '${id}';`)
+        const { rows } = await pool.query(`SELECT id, nombres, apellidos, celular, correo,
+        (SELECT nombre_rol FROM roles WHERE id_rol = rol) AS nombre_rol,
+        (SELECT nombre_tipo FROM tipos_identificacion WHERE id_tipo = tipo_id) AS nombre_tipo
+        FROM users WHERE id = '${id}';`)
 
         res.json({ result: rows })
 
